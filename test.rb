@@ -140,3 +140,4 @@ end
 1.upto((t.count-1)*2) do |n|
 	puts cal[n].to_s
 end
+

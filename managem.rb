@@ -51,6 +51,24 @@ end
 
 puts "Welcome to Managem #{version}"
 
+def startNewGame
+
+	puts "Starting new Game..."
+
+	man = Manager.new
+	man.setFirstName ( ask "First Name")
+	man.setLastName (ask "Last Name")
+
+	game = Game.new
+	game.setManager(man)
+	
+	puts "Choose a country :"
+
+	countries = Country.select
+
+	return game
+end
+
 games = Dir["data/games/*"]
 if games.length > 0
 	puts "Load game :"
@@ -58,17 +76,29 @@ if games.length > 0
 		puts "#{i}: #{games[i-1]}"
 	}
 	puts "n: Start new game"
-	ask "Your choice"
+	choice = ask "Your choice"
+	if choice == 'n'
+		game = startNewGame
+	else
+		puts 'Get old game'
+		f = File.new("#{games[choice.to_i-1]}/manager",'r')
+		firstName = f.gets.chomp
+		lastName = f.gets.chomp
+		man = Manager.new
+		man.setFirstName firstName
+		man.setLastName lastName
+		game = Game.new
+		game.setManager(man)
+		puts "Your Name : #{firstName} #{lastName}"
+	end
+else
+	game = startNewGame
 end
 
-	puts "Starting new Game..."
-	man = Manager.new
-	man.setFirstName ( ask "First Name")
-	man.setLastName (ask "Last Name")
-	game = Game.new
-	game.setManager(man)
-#end
+# debut du jeu
 
+
+# fin du jeu
 
 gameName = ask "Saving game as..."
 game.setName gameName
