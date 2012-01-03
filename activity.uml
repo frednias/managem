@@ -1,0 +1,10 @@
+(*) --> Menu
+
+if "Choix" then
+ ->[new game] "Manager profil"
+ ->[set] "Manager details"
+else
+ ->[old game] "List old game"
+ ->[load old game] "Manager details"
+endif
+
