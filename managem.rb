@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
+
 require 'fileutils'
-version = '0.01'
+
+require 'lib/conf'
 
 class Manager
 	def initialize
@@ -23,14 +25,10 @@ end
 
 class Game
 	def initialize
-		Dir.mkdir "./data/games/run"
 	end
+
 	def setManager manager
 		@manager = manager
-		f = File.new('./data/games/run/manager','w')
-		f.puts @manager.getFirstName
-		f.puts @manager.getLastName
-		f.close
 	end
 
 	def setName name
@@ -41,6 +39,19 @@ class Game
 		FileUtils.rm_rf "./data/games/#{@name}"
 		FileUtils.mv( "./data/games/run" , "./data/games/#{@name}" )
 	end
+
+	def run
+		Dir.mkdir "./data/games/run"
+		f = File.new('./data/games/run/manager','w')
+		f.puts @manager.getFirstName
+		f.puts @manager.getLastName
+		f.close
+	end
+end
+
+class Country
+	def find
+	end
 end
 
 def ask label
@@ -49,14 +60,14 @@ def ask label
 	return $_.chomp
 end
 
-puts "Welcome to Managem #{version}"
+puts "Welcome to Managem #{Managem::Version}"
 
 def startNewGame
 
 	puts "Starting new Game..."
 
 	man = Manager.new
-	man.setFirstName ( ask "First Name")
+	man.setFirstName (ask "First Name")
 	man.setLastName (ask "Last Name")
 
 	game = Game.new
@@ -64,8 +75,25 @@ def startNewGame
 	
 	puts "Choose a country :"
 
-	countries = Country.select
+	countries = Country.find
+	1.upto(countries.length) { |i|
+		puts "#{i}: #{countries[i-1]}"
+	}
 
+	return game
+end
+
+def loadOldGame
+	puts 'Get old game'
+	f = File.new("#{games[choice.to_i-1]}/manager",'r')
+	firstName = f.gets.chomp
+	lastName = f.gets.chomp
+	man = Manager.new
+	man.setFirstName firstName
+	man.setLastName lastName
+	game = Game.new
+	game.setManager(man)
+	puts "Your Name : #{firstName} #{lastName}"
 	return game
 end
 
@@ -96,7 +124,7 @@ else
 end
 
 # debut du jeu
-
+game.run
 
 # fin du jeu
 
