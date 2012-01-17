@@ -7,5 +7,5 @@ Requirements
 ============
 
 * Ruby >= 1.9.3p0
-* Sqlite3
+* Sqlite3 >= 3.5.9
 

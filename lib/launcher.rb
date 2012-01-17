@@ -17,9 +17,9 @@ class Launcher
 		
 		puts "Choose a country :"
 
-		listCountry = Country.query.filterByPlayable(1).find
+		listCountry = CountryQuery.new.filterByPlayable(1).find
 		1.upto(listCountry.length) { |i|
-			puts "#{i}: #{listCountry[i-1]}"
+			puts "#{i}: #{listCountry[i-1].getLabel}"
 		}
 
 		return game
