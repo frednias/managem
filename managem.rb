@@ -2,27 +2,20 @@
 
 require 'fileutils'
 
-require 'lib/conf'
-require 'lib/manager'
-require 'lib/game'
-require 'lib/launcher'
-
-class Country
-	def select
-		return []
-	end
-end
-
-#c = Country.new
-#c.select.push 'a'
-
-#exit
+require './lib/env'
+require './lib/conf'
+require './lib/manager'
+require './lib/game'
+require './lib/launcher'
+require './lib/country'
 
 def ask label
 	print "#{label} ? "
 	gets
 	return $_.chomp
 end
+
+Env.install
 
 puts "Welcome to Managem #{Managem::Version}"
 

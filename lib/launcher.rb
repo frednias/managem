@@ -17,8 +17,7 @@ class Launcher
 		
 		puts "Choose a country :"
 
-		c = Country.new
-		listCountry = c.find
+		listCountry = Country.query.filterByPlayable(1).find
 		1.upto(listCountry.length) { |i|
 			puts "#{i}: #{listCountry[i-1]}"
 		}
