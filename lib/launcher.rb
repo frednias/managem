@@ -21,6 +21,19 @@ class Launcher
 		1.upto(listCountry.length) { |i|
 			puts "#{i}: #{listCountry[i-1].getLabel}"
 		}
+		cou_id = (ask "Your choice").to_i
+		country = CountryQuery.new.getPk listCountry[cou_id-1].getId
+
+		puts "Choose a team to train :"
+
+		listTeam = TeamQuery.new.filterByCountry(country).find
+		1.upto(listTeam.length) {  |i|
+			puts "#{i} : #{listTeam[i-1].getLabel}"
+		}
+		tea_id = ask "Your choice"
+		team = TeamQuery.new.getPk listTeam[tea_id.to_i-1].getId
+
+		puts team.to_s
 
 		return game
 	end

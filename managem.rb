@@ -8,6 +8,7 @@ require './lib/manager'
 require './lib/game'
 require './lib/launcher'
 require './lib/country'
+require './lib/team'
 
 def ask label
 	print "#{label} ? "

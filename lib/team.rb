@@ -1,6 +1,6 @@
 require 'sqlite3'
 
-class Country
+class Team
 	def setId id
 		@id = id
 	end
@@ -13,29 +13,34 @@ class Country
 	def getLabel
 		@label
 	end
-	def setPlayable playable
-		@playable = playable
+
+	def setCouById cou_id
+		@country = CountryQuery.new.getPk cou_id
+	end
+
+	def to_s
+		"I am [#{@id}] #{@label} in #{@country.getLabel}"
 	end
 end
 
-class CountryQuery
+class TeamQuery
 	def initialize
 		@mapFunction = {
-			'cou_id' => 'setId',
-			'cou_label' => 'setLabel',
-			'cou_playable' => 'setPlayable'
+			'tea_id' => 'setId',
+			'tea_label' => 'setLabel',
+			'tea_cou_id' => 'setCouById'
 		}
 		@condition = []
 		@list = []
 	end
 
-	def filterByPlayable(playable)
-		@condition.push ['cou_playable',playable]
+	def filterByCountry country
+		@condition.push ['tea_cou_id',country.getId]
 		self
 	end
 
 	def find
-		s = "select * from cou_country where 1"
+		s = "select * from tea_team where 1"
 		@condition.each do |c|
 			s = "#{s} AND #{c[0]} = #{c[1]}"
 		end
@@ -43,7 +48,7 @@ class CountryQuery
 			db.results_as_hash = true
 			row = db.execute2(s)
 			1.upto(row.length-1) do |i|
-				c = Country.new
+				c = Team.new
 				row[0].each do |col|
 					c.send( @mapFunction[col], row[i][col])
 				end
@@ -53,9 +58,9 @@ class CountryQuery
 		@list
 	end
 
-	def getPk cou_id
-		c = Country.new
-		s = "select * from cou_country where cou_id = #{cou_id}"
+	def getPk tea_id
+		c = Team.new
+		s = "select * from tea_team where tea_id = #{tea_id}"
 		SQLite3::Database.new( "./data/init/data.db" ) do |db|
 			db.results_as_hash = true
 			row = db.execute2(s)
