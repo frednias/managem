@@ -39,7 +39,7 @@ class CountryQuery
 		@condition.each do |c|
 			s = "#{s} AND #{c[0]} = #{c[1]}"
 		end
-		SQLite3::Database.new( "./data/init/data.db" ) do |db|
+		SQLite3::Database.new( "./data/run/data.db" ) do |db|
 			db.results_as_hash = true
 			row = db.execute2(s)
 			1.upto(row.length-1) do |i|
@@ -56,7 +56,7 @@ class CountryQuery
 	def getPk cou_id
 		c = Country.new
 		s = "select * from cou_country where cou_id = #{cou_id}"
-		SQLite3::Database.new( "./data/init/data.db" ) do |db|
+		SQLite3::Database.new( "./data/run/data.db" ) do |db|
 			db.results_as_hash = true
 			row = db.execute2(s)
 			1.upto(row.length-1) do |i|

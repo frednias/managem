@@ -13,6 +13,12 @@ class Team
 	def getLabel
 		@label
 	end
+	def setTitle title
+		@title = title
+	end
+	def getTitle
+		@title
+	end
 
 	def setCouById cou_id
 		@country = CountryQuery.new.getPk cou_id
@@ -28,6 +34,7 @@ class TeamQuery
 		@mapFunction = {
 			'tea_id' => 'setId',
 			'tea_label' => 'setLabel',
+			'tea_title' => 'setTitle',
 			'tea_cou_id' => 'setCouById'
 		}
 		@condition = []
@@ -44,7 +51,7 @@ class TeamQuery
 		@condition.each do |c|
 			s = "#{s} AND #{c[0]} = #{c[1]}"
 		end
-		SQLite3::Database.new( "./data/init/data.db" ) do |db|
+		SQLite3::Database.new( "./data/run/data.db" ) do |db|
 			db.results_as_hash = true
 			row = db.execute2(s)
 			1.upto(row.length-1) do |i|
@@ -61,7 +68,7 @@ class TeamQuery
 	def getPk tea_id
 		c = Team.new
 		s = "select * from tea_team where tea_id = #{tea_id}"
-		SQLite3::Database.new( "./data/init/data.db" ) do |db|
+		SQLite3::Database.new( "./data/run/data.db" ) do |db|
 			db.results_as_hash = true
 			row = db.execute2(s)
 			1.upto(row.length-1) do |i|
