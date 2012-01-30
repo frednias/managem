@@ -2,12 +2,12 @@
 class Launcher
 	def initialize
 		@games = Dir["data/games/*"]
+		FileUtils.rm_rf "./data/run"
+		Dir.mkdir "./data/run"
 	end
 
 	def startNewGame
 
-		FileUtils.rm_rf "./data/run"
-		Dir.mkdir "./data/run"
 		FileUtils.cp( "./data/init/data.db" , "./data/run/data.db" )
 
 		puts "Starting new Game..."
@@ -51,7 +51,6 @@ class Launcher
 
 	def loadOldGame (choice)
 
-		Dir.mkdir "./data/run"
 		FileUtils.cp( "#{@games[choice.to_i-1]}/data.db" , "./data/run/data.db" )
 		FileUtils.cp( "#{@games[choice.to_i-1]}/manager" , "./data/run/manager" )
 

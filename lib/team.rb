@@ -25,7 +25,7 @@ class Team
 	end
 
 	def to_s
-		"I am [#{@id}] #{@label} in #{@country.getLabel}"
+		@label
 	end
 end
 
