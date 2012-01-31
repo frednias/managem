@@ -80,9 +80,9 @@ class Game
 		1.upto((teams.count-1)*2) do |n|
 			puts "day " + n.to_s
 			1.upto(cal[n].count) do |x|
-				s = ask cal[n][x-1][0].to_s + "(#{cal[n][x-1][0].getId})" + ' vs ' + cal[n][x-1][1].to_s + "(#{cal[n][x-1][1].getId})"
 
-				s1,s2 = s.split(/-/)
+				m = Match.new cal[n][x-1][0], cal[n][x-1][1]
+				s1,s2 = m.getScores
 
 				reg[cal[n][x-1][0].getId]['f'] = reg[cal[n][x-1][0].getId]['f'] + s1.to_i
 				reg[cal[n][x-1][0].getId]['a'] = reg[cal[n][x-1][0].getId]['a'] + s2.to_i
