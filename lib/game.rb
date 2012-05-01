@@ -16,6 +16,11 @@ class Game
 		FileUtils.mv( "./data/run" , "./data/games/#{@name}" )
 	end
 
+	def create data
+		puts 'creating new game'
+		puts data['firstname']
+	end
+
 	def run
 		france = CountryQuery.new.getPk 1
 		teams = TeamQuery.new.filterByCountry(france).find

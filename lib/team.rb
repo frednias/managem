@@ -51,7 +51,9 @@ class TeamQuery
 		@condition.each do |c|
 			s = "#{s} AND #{c[0]} = #{c[1]}"
 		end
-		SQLite3::Database.new( "./data/run/data.db" ) do |db|
+
+		SQLite3::Database.new( "data/run/data.db" ) do |db|
+puts 'go into db'
 			db.results_as_hash = true
 			row = db.execute2(s)
 			1.upto(row.length-1) do |i|

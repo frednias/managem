@@ -1,0 +1,9 @@
+<IfModule mod_rewrite.c>
+    Options -MultiViews
+
+    RewriteEngine On
+    RewriteBase /managem/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.rb [QSA,L]
+</IfModule>
+
