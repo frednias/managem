@@ -12,6 +12,9 @@ class Game
 	def setName name
 		@name = name
 	end
+	def getName
+		@name
+	end
 
 	def save
 		FileUtils.rm_rf "./data/games/#{@name}"
@@ -26,8 +29,24 @@ class Game
 		f = File.open "./data/games/running/manager.yaml", 'w'
 		f.puts  YAML::dump(data.params)
 		f.close
-		puts Dir["./*"].inspect
+		setName  data.param['ident']
 	end
+
+	def quit
+		load
+		FileUtils.mv( "data/games/running" , "data/games/#{@name}" )
+	end
+
+	def load
+		param = YAML::load(File.read('data/games/running/manager.yaml'))
+		setName  param['ident']
+		self
+	end
+
+	def getList
+		Dir["./data/games/*"]
+	end
+
 
 	def run
 		france = CountryQuery.new.getPk 1

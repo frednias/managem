@@ -9,7 +9,9 @@ class Home < WebApplication
 		else
 			d = Dir["data/games/*"]
 			if d.length > 0
-				puts 'liste des parties'
+				@tpl = 'gamelist'
+				@title =  'Liste des parties'
+				@games = Game.new.getList
 			else
 				@tpl = 'newgame'
 				@title = 'Nouvelle partie'
@@ -21,8 +23,8 @@ class Home < WebApplication
 	def running
 		@tpl = 'run'
 		@title = 'Partie en cours'
-		param = YAML::load(File.read('data/games/running/manager.yaml'))
-		@party = param['ident']
+
+		@game = Game.new.load
 	end
 end
 
