@@ -1,3 +1,5 @@
+require 'yaml'
+require 'fileutils'
 
 class Game
 	def initialize
@@ -18,7 +20,13 @@ class Game
 
 	def create data
 		puts 'creating new game'
-		puts data['firstname']
+		puts YAML::dump(data.params)
+		Dir.mkdir("./data/games/running")
+		FileUtils.cp( "data/init/data.db" , "data/games/running/data.db" )
+		f = File.open "./data/games/running/manager.yaml", 'w'
+		f.puts  YAML::dump(data.params)
+		f.close
+		puts Dir["./*"].inspect
 	end
 
 	def run

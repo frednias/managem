@@ -1,10 +1,11 @@
+require 'yaml'
 require 'lib/team.rb'
 
 class Home < WebApplication
 
 	def initialize
 		if File.directory?("data/games/running")
-			puts 'reprendre la partie courante'
+			running
 		else
 			d = Dir["data/games/*"]
 			if d.length > 0
@@ -17,5 +18,11 @@ class Home < WebApplication
 		end
 	end
 
+	def running
+		@tpl = 'run'
+		@title = 'Partie en cours'
+		param = YAML::load(File.read('data/games/running/manager.yaml'))
+		@party = param['ident']
+	end
 end
 
