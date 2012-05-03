@@ -5,13 +5,13 @@ require 'sqlite3'
 require 'net/http'
 
 # fake User agent
-ua = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.75     Safari/535.7'
+ua = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.75 Safari/535.7'
 
 # restart from scratch
 FileUtils.rm_rf './data/init'
 Dir.mkdir './data/init'
 
-SQLite3::Database.new( './data/init/data.db' ) do |db|
+db = SQLite3::Database.new( './data/init/data.db' )
 
 	db.execute('
 		CREATE TABLE 
@@ -60,4 +60,3 @@ SQLite3::Database.new( './data/init/data.db' ) do |db|
 	db.execute( "select * from tea_team" ) do |row|
 		puts "#{row[0]} = #{row[1]} (#{row[2]})"
 	end
-end

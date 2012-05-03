@@ -1,3 +1,4 @@
+require 'lib/team.rb'
 
 class Home < WebApplication
 
@@ -11,6 +12,7 @@ class Home < WebApplication
 			else
 				@tpl = 'newgame'
 				@title = 'Nouvelle partie'
+				@teams = TeamQuery.new.find
 			end
 		end
 	end

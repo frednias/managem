@@ -52,8 +52,7 @@ class TeamQuery
 			s = "#{s} AND #{c[0]} = #{c[1]}"
 		end
 
-		SQLite3::Database.new( "data/run/data.db" ) do |db|
-puts 'go into db'
+		db = SQLite3::Database.new( "data/run/data.db" ) 
 			db.results_as_hash = true
 			row = db.execute2(s)
 			1.upto(row.length-1) do |i|
@@ -63,14 +62,13 @@ puts 'go into db'
 				end
 				@list.push c
 			end
-		end
 		@list
 	end
 
 	def getPk tea_id
 		c = Team.new
 		s = "select * from tea_team where tea_id = #{tea_id}"
-		SQLite3::Database.new( "./data/run/data.db" ) do |db|
+		db = SQLite3::Database.new( "./data/run/data.db" )
 			db.results_as_hash = true
 			row = db.execute2(s)
 			1.upto(row.length-1) do |i|
@@ -78,7 +76,6 @@ puts 'go into db'
 					c.send( @mapFunction[col], row[i][col])
 				end
 			end
-		end
 		return c
 	end
 end

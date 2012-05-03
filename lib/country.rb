@@ -55,7 +55,7 @@ class CountryQuery
 	def getPk cou_id
 		c = Country.new
 		s = "select * from cou_country where cou_id = #{cou_id}"
-		SQLite3::Database.new( "./data/run/data.db" ) do |db|
+		db = SQLite3::Database.new( "./data/run/data.db" ) 
 			db.results_as_hash = true
 			row = db.execute2(s)
 			1.upto(row.length-1) do |i|
@@ -63,7 +63,6 @@ class CountryQuery
 					c.send( @mapFunction[col], row[i][col])
 				end
 			end
-		end
 		return c
 	end
 end

@@ -33,6 +33,18 @@
   <fieldset>
     <legend>Partie</legend>
 
+<div class="control-group">
+    <label class="control-label" for="select01">Club</label>
+    <div class="controls">
+              <select id="select01">
+		<% @teams.each { |team| %>
+			<option value=''><%= team.getLabel %></option>"
+		<% } %>
+              </select>
+		<p class="help-block">Club a entrainer</p>
+    </div>
+</div>
+
     <div class="control-group">
       <label class="control-label" for="input01">Identifiant</label>
       <div class="controls">
