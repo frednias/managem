@@ -11,9 +11,14 @@ app.get('/', proc {
 	h = Home.new.display
 })
 
+app.get('/game/start/{id}', Proc.new { |id|
+	Game.new.start id
+})
+
 app.post('/new', Proc.new { |data|
-	print "Content-type: text/plain\r\n\r\n"
 	g = Game.new.create data
+	print "Location: http://nias.fr/managem\r\n"
+	print "Content-type: text/plain\r\n\r\n"
 })
 
 app.get('/quit', proc {

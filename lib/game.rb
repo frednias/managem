@@ -22,14 +22,12 @@ class Game
 	end
 
 	def create data
-		puts 'creating new game'
-		puts YAML::dump(data.params)
 		Dir.mkdir("./data/games/running")
 		FileUtils.cp( "data/init/data.db" , "data/games/running/data.db" )
 		f = File.open "./data/games/running/manager.yaml", 'w'
 		f.puts  YAML::dump(data.params)
 		f.close
-		setName  data.param['ident']
+		setName  data.params['ident']
 	end
 
 	def quit
