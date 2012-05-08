@@ -30,7 +30,13 @@ def getFirstDate (year)
 	return j0
 end
 
-j0 = getFirstDate 2011
+j0 = getFirstDate 2012
+
+puts j0
+
+
+abort
+
 
 # matchs internationaux euro 2012
 # groupes de 6 equipes : 4 dates par semestres, pendant 3 semestres

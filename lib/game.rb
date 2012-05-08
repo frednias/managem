@@ -1,6 +1,17 @@
 require 'yaml'
 require 'fileutils'
 
+def getFirstDate (year)
+        d = Date.new(year,6,30)
+        if d.cwday < 3
+                j0 = d-14+3-d.cwday
+        elsif d.cwday >=3
+                j0 = d-7-d.cwday+3
+        end
+        return j0
+end
+
+
 class Game
 	def initialize
 	end
@@ -15,6 +26,9 @@ class Game
 	def getName
 		@name
 	end
+	def getDate
+		@date
+	end
 
 	def save
 		#not used ?
@@ -23,6 +37,9 @@ class Game
 	end
 
 	def create data
+		params = data.params
+		j0 = getFirstDate 2012
+		params['date'] = j0
 		Dir.mkdir("./data/games/running")
 		FileUtils.cp( "data/init/data.db" , "data/games/running/data.db" )
 		f = File.open "./data/games/running/manager.yaml", 'w'
@@ -43,6 +60,7 @@ class Game
 	def load
 		param = YAML::load(File.read('data/games/running/manager.yaml'))
 		setName  param['ident']
+		@date = param['date']
 		self
 	end
 
