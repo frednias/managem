@@ -17,6 +17,7 @@ class Game
 	end
 
 	def save
+		#not used ?
 		FileUtils.rm_rf "./data/games/#{@name}"
 		FileUtils.mv( "./data/run" , "./data/games/#{@name}" )
 	end
@@ -30,6 +31,10 @@ class Game
 		setName  data.params['ident']
 	end
 
+	def start id
+		FileUtils.mv( "data/games/#{id}" , "data/games/running" )
+		load
+	end
 	def quit
 		load
 		FileUtils.mv( "data/games/running" , "data/games/#{@name}" )

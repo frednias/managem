@@ -13,6 +13,8 @@ app.get('/', proc {
 
 app.get('/game/start/{id}', Proc.new { |id|
 	Game.new.start id
+	print "Location: http://nias.fr/managem\r\n"
+	print "Content-type: text/plain\r\n\r\n"
 })
 
 app.post('/new', Proc.new { |data|

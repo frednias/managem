@@ -16,6 +16,13 @@ class Application
 		path = ENV["REQUEST_URI"].sub(Managem::Path,'').sub('?','')
 		res = false
 		@methods.each do |method|
+			#puts "matching #{path} with #{method[1].sub('{id}','(\w+)')}"
+			if path.match( method[1].sub('{id}','(\w+)'))
+				size = path.match( method[1].sub('{id}','(\w+)')).length
+				if size > 1
+					method[2].call path.match( method[1].sub('{id}','(\w+)'))[1]
+				end
+			end
 			if method[1] == path
 				res = true
 				if method == 'GET'
