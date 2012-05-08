@@ -1,10 +1,13 @@
 <div class="container">
 <h1><%= @title %></h1>
 
+<p>
 <% @games.each { |game| %>
 <li><a href='/managem/game/start/<%= File.basename(game) %>'><%= File.basename(game) %></a>
 <% } %>
 
+<p>
+<a href='/managem/game/edit'>Nouvelle partie</a>
 
 </div>
 

@@ -23,8 +23,14 @@ class Home < WebApplication
 	def running
 		@tpl = 'run'
 		@title = 'Partie en cours'
-
 		@game = Game.new.load
+	end
+
+	def newgame
+		@tpl = 'newgame'
+		@title = 'Nouvelle partie'
+		@teams = TeamQuery.new.find
+		self
 	end
 end
 

@@ -17,13 +17,17 @@ app.get('/game/start/{id}', Proc.new { |id|
 	print "Content-type: text/plain\r\n\r\n"
 })
 
-app.post('/new', Proc.new { |data|
+app.get('/game/edit', proc {
+	Home.new.newgame.display
+})
+
+app.post('/game/new', Proc.new { |data|
 	g = Game.new.create data
 	print "Location: http://nias.fr/managem\r\n"
 	print "Content-type: text/plain\r\n\r\n"
 })
 
-app.get('/quit', proc {
+app.get('/game/quit', proc {
 	Game.new.quit
 	print "Location: http://nias.fr/managem\r\n"
 	print "Content-type: text/plain\r\n\r\n"

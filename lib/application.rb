@@ -33,6 +33,7 @@ class Application
 			end
 		end
 		if res == false
+			print "Content-type: text/plain\r\n\r\n"
 			puts "not  found"
 		end
 	end
