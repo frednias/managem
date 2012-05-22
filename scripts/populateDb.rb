@@ -4,6 +4,10 @@ require 'fileutils'
 require 'sqlite3'
 require 'net/http'
 
+require 'lib/activerecord'
+require 'lib/team'
+require 'lib/country'
+
 # fake User agent
 ua = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.75 Safari/535.7'
 
@@ -13,36 +17,40 @@ Dir.mkdir './data/init'
 
 db = SQLite3::Database.new( './data/init/data.db' )
 
-	db.execute('
-		CREATE TABLE 
-			cou_country
-		(
-			cou_id INTEGER CONSTRAINT pk PRIMARY KEY AUTOINCREMENT,
-			cou_label varchar(255),
-			cou_playable INTEGER
-		)
-	')
-	db.execute('
-		CREATE TABLE 
-			tea_team
-		(
-			tea_id INTEGER CONSTRAINT pk PRIMARY KEY AUTOINCREMENT,
-			tea_label varchar(255),
-			tea_title varchar(255),
-			tea_cou_id INTEGER
-		)
-	')
+db.execute('
+	CREATE TABLE 
+		cou_country
+	(
+		cou_id INTEGER CONSTRAINT pk PRIMARY KEY AUTOINCREMENT,
+		cou_label varchar(255),
+		cou_playable INTEGER
+	)
+')
+db.execute('
+	CREATE TABLE 
+		tea_team
+	(
+		tea_id INTEGER CONSTRAINT pk PRIMARY KEY AUTOINCREMENT,
+		tea_label varchar(255),
+		tea_title varchar(255),
+		tea_cou_id INTEGER
+	)
+')
 
-	db.execute("insert into cou_country (cou_label,cou_playable) values ('France',1)")
-	db.execute("insert into cou_country (cou_label,cou_playable) values ('Espagne',0)")
-	db.execute("insert into cou_country (cou_label,cou_playable) values ('Italie',0)")
-	db.execute("insert into cou_country (cou_label,cou_playable) values ('Allemagne',0)")
-	db.execute("insert into cou_country (cou_label,cou_playable) values ('Angleterre',0)")
+	Country.new('Espagne').save
+	Country.new('Angleterre').save
+	Country.new('Italie').save
+	Country.new('Allemagne').save
 
-	db.execute( "select * from cou_country" ) do |row|
-		puts "#{row[0]} = #{row[1]}"
-	end
 
+Country.new.find.each do |c|
+	puts c.getName
+end
+
+
+	c = Country.new 'France'
+	c.setPlayable 1
+	c.save
 	#populate team for France
 	h = Net::HTTP.new 'fr.wikipedia.org', 80
 	resp = h.get( '/w/index.php?title=Mod%C3%A8le:Palette_%C3%89quipes_du_championnat_de_France_de_football_D1&action=raw', {'User-agent' => ua, 'accept-encoding' => 'identity'})
@@ -53,10 +61,23 @@ db = SQLite3::Database.new( './data/init/data.db' )
 		end
 		title.gsub!("'","''")
 		label.gsub!("'","''")
-		sql = "insert into tea_team (tea_label,tea_title,tea_cou_id) values ('#{label}','#{title}',1)"
-		db.execute sql
+
+		t = Team.new
+		t.setName label
+		t.setTitle title
+		t.setCountry c.getId
+		t.save
 	end
+
 
 	db.execute( "select * from tea_team" ) do |row|
 		puts "#{row[0]} = #{row[1]} (#{row[2]})"
 	end
+
+
+Team.new.find.each do |t|
+	puts t.getName
+end
+	
+
+

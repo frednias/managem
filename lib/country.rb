@@ -1,28 +1,37 @@
 require 'sqlite3'
 
-class Country
-	def setId id
-		@id = id
+class Country < ActiveRecord
+        def initialize name = nil
+                @table = 'cou_country'
+                @row = [ {'col'=>'cou_label','var'=>'label','type'=>'string'} , {'col'=>'cou_playable','var'=>'playable','type'=>'int'} ]
+		@pk = 'cou_id'
+                @infos = {
+			'cou_id' => [ 'int' , nil ] ,
+                        'cou_label' => [ 'string' , '' ] ,
+                        'cou_playable' => [ 'int' , 0 ]
+                }
+
+                if name
+                        self.setName  name
+                end
+        end
+        def setName name
+                @infos['cou_label'][1] = name
+        end
+	def getName
+		@infos['cou_label'][1]
 	end
-	def getId
-		@id
-	end
-	def setLabel label
-		@label = label
-	end
-	def getLabel
-		@label
-	end
-	def setPlayable playable
-		@playable = playable
-	end
+
+        def setPlayable playable
+                @infos['cou_playable'][1] = playable
+        end
 end
 
 class CountryQuery
 	def initialize
 		@mapFunction = {
 			'cou_id' => 'setId',
-			'cou_label' => 'setLabel',
+			'cou_label' => 'setName',
 			'cou_playable' => 'setPlayable'
 		}
 		@condition = []

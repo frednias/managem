@@ -1,41 +1,39 @@
 require 'sqlite3'
 
-class Team
-	def setId id
-		@id = id
-	end
-	def getId
-		@id
-	end
-	def setLabel label
-		@label = label
-	end
-	def getLabel
-		@label
-	end
-	def setTitle title
-		@title = title
-	end
-	def getTitle
-		@title
+class Team < ActiveRecord
+        def initialize
+                @table = 'tea_team'
+		@pk = 'tea_id'
+                @infos = {
+			'tea_id' => [ 'int' , nil ] ,
+                        'tea_label' => [ 'string' , '' ] ,
+                        'tea_title' => [ 'string' , '' ] ,
+                        'tea_cou_id' => [ 'int' , nil ]
+                }
+        end
+        def setName name
+                @infos['tea_label'][1] = name
+        end
+	def getName
+		@infos['tea_label'][1]
 	end
 
-	def setCouById cou_id
-		@country = CountryQuery.new.getPk cou_id
-	end
+        def setTitle title
+                @infos['tea_title'][1] = title
+        end
 
-	def to_s
-		@label
-	end
+        def setCountry cou_id
+                @infos['tea_cou_id'][1] = cou_id
+        end
 end
 
 class TeamQuery
 	def initialize
 		@mapFunction = {
 			'tea_id' => 'setId',
-			'tea_label' => 'setLabel',
+			'tea_label' => 'setName',
 			'tea_title' => 'setTitle',
-			'tea_cou_id' => 'setCouById'
+			'tea_cou_id' => 'setCountry'
 		}
 		@condition = []
 		@list = []
