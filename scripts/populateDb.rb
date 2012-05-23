@@ -76,6 +76,7 @@ end
 
 
 Team.new.find.each do |t|
+	puts t.getId
 	puts t.getName
 end
 	

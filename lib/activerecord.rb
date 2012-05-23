@@ -30,11 +30,18 @@ class ActiveRecord
 
                 @db.execute sql
                 @id = @db.last_insert_row_id
+		@infos[@pk][1] = @id
         end
 
         def getId
                 @id
         end
+	def setId id
+		@id = id
+	end
+	def getPk
+		@pk
+	end
 
 	def load id
 		puts "loading " + id.to_s 
@@ -53,6 +60,9 @@ class ActiveRecord
 			c = self.class.new
 			row[0].each do |col|
 				c.setValue col , row[i][col]
+				if col == c.getPk
+					c.setId row[i][col]
+				end
 			end
 			list.push c
 		end

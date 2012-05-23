@@ -29,7 +29,7 @@ class Home < WebApplication
 	def newgame
 		@tpl = 'newgame'
 		@title = 'Nouvelle partie'
-		@teams = TeamQuery.new.find
+		@teams = Team.new.find
 		self
 	end
 end

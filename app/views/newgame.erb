@@ -39,7 +39,7 @@
     <div class="controls">
               <select id="select01">
 		<% @teams.each { |team| %>
-			<option value=''><%= team.getLabel %></option>"
+			<option value='<%= team.getId %>'><%= team.getName %></option>"
 		<% } %>
               </select>
 		<p class="help-block">Club a entrainer</p>
