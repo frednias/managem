@@ -37,24 +37,14 @@ db.execute('
 	)
 ')
 
-	Country.new('Espagne').save
-	Country.new('Angleterre').save
-	Country.new('Italie').save
-	Country.new('Allemagne').save
 
 
 Country.new.find.each do |c|
 	puts c.getName
 end
 
-
-	c = Country.new 'France'
-	c.setPlayable 1
-	c.save
-	#populate team for France
-	h = Net::HTTP.new 'fr.wikipedia.org', 80
-	resp = h.get( '/w/index.php?title=Mod%C3%A8le:Palette_%C3%89quipes_du_championnat_de_France_de_football_D1&action=raw', {'User-agent' => ua, 'accept-encoding' => 'identity'})
-	resp.body.scan(/\[\[([^:\]\]]*)\]\]/)[2..99].each do |entry|
+def parseRaw rawData,c
+	rawData.body.scan(/\[\[([^:\]\]]*)\]\]/)[2..99].each do |entry|
 		title, label = entry[0].split(/\|/)
 		unless label
 			label = title
@@ -68,16 +58,43 @@ end
 		t.setCountry c.getId
 		t.save
 	end
+end
 
+	h = Net::HTTP.new 'fr.wikipedia.org', 80
 
-	db.execute( "select * from tea_team" ) do |row|
-		puts "#{row[0]} = #{row[1]} (#{row[2]})"
-	end
+	c = Country.new 'France'
+	c.setPlayable 1
+	c.save
+	rawData = h.get( '/w/index.php?title=Mod%C3%A8le:Palette_%C3%89quipes_du_championnat_de_France_de_football_D1&action=raw', {'User-agent' => ua, 'accept-encoding' => 'identity'})
+	parseRaw rawData,c
+
+	c = Country.new 'Espagne'
+	c.setPlayable 1
+	c.save
+	rawData = h.get( "/w/index.php?title=Mod%C3%A8le:Palette_%C3%89quipes_du_championnat_d%27Espagne_de_football_D1&action=raw", {'User-agent' => ua, 'accept-encoding' => 'identity'})
+	parseRaw rawData,c
+
+	c = Country.new 'Italie'
+	c.setPlayable 1
+	c.save
+	rawData = h.get( "/w/index.php?title=Mod%C3%A8le:Palette_%C3%89quipes_du_championnat_d%27Italie_de_football_D1&action=raw", {'User-agent' => ua, 'accept-encoding' => 'identity'})
+	parseRaw rawData,c
+
+	c = Country.new 'Allemagne'
+	c.setPlayable 1
+	c.save
+	rawData = h.get( "/w/index.php?title=Mod%C3%A8le:Palette_%C3%89quipes_du_championnat_d%27Allemagne_de_football_D1&action=raw", {'User-agent' => ua, 'accept-encoding' => 'identity'})
+	parseRaw rawData,c
+
+	c = Country.new 'Angleterre'
+	c.setPlayable 1
+	c.save
+	rawData = h.get( "/w/index.php?title=Mod%C3%A8le:Palette_%C3%89quipes_du_championnat_d%27Angleterre_de_football_D1&action=raw", {'User-agent' => ua, 'accept-encoding' => 'identity'})
+	parseRaw rawData,c
 
 
 Team.new.find.each do |t|
-	puts t.getId
-	puts t.getName
+	puts t.getId + " => " +  t.getName
 end
 	
 
