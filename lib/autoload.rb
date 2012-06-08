@@ -4,4 +4,4 @@ autoload :WebApplication, 'lib/webapplication.rb'
 autoload :Game, 'lib/game.rb'
 autoload :CountryQuery, 'lib/country'
 autoload :ActiveRecord, 'lib/activerecord'
-
+autoload :Team , 'lib/team.rb'

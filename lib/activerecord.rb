@@ -50,10 +50,15 @@ class ActiveRecord
 		puts "initialize"
 	end
 
-	def find
+	def find params = nil
 		list = []
 		init
-		sql = "select * from #{@table}"
+		sql = "select * from #{@table} where 1 "
+		if params
+			params.each do |param|
+				sql = sql + "and #{param[0]} = #{param[1]} "
+			end
+		end
 		@db.results_as_hash = true
 		row = @db.execute2(sql) 
 		1.upto(row.length-1) do |i|

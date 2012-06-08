@@ -1,3 +1,19 @@
+<script>
+function selCouChanged() {
+	cou_id = $('#selCou').val();
+	//res = jQuery.ajax('/managem/api/clubs/find?tea_cou_id=' + cou_id );
+	$.ajax({
+		url: '/managem/api/clubs/find?tea_cou_id=' + cou_id ,
+		success: function(data) {
+			$('#selTeam >option').remove();
+			for( i=0; i<data.length; i++) {
+				$('#selTeam').append($("<option></option>").attr("value",data[i][0]).text(data[i][1])); 
+				$('#divclub').show();
+			}
+		}
+	});
+}
+</script>
 <div class="container">
 <h1>Nouvelle partie</h1>
 <p>
@@ -32,21 +48,32 @@
   </fieldset>
 
   <fieldset>
-    <legend>Partie</legend>
+    <legend>Club</legend>
 
 <div class="control-group">
-    <label class="control-label" for="select01">Club</label>
+    <label class="control-label" for="selCou">Pays</label>
     <div class="controls">
-              <select id="select01" name='tea_id'>
-		<% @teams.each { |team| %>
-			<option value='<%= team.getId %>'><%= team.getName %></option>"
+              <select id="selCou" name='cou_id' onChange="selCouChanged()">
+			<option value=0>Choisir un pays...</option>
+		<% @countries.each { |country| %>
+			<option value='<%= country.getId %>'><%= country.getName %></option>"
 		<% } %>
+              </select>
+		<p class="help-block">Choisir un pays</p>
+    </div>
+</div>
+<div class="control-group" id="divclub" style="display: none">
+    <label class="control-label" for="selTeam">Club</label>
+    <div class="controls">
+              <select id="selTeam" name='tea_id'>
               </select>
 		<p class="help-block">Club a entrainer</p>
     </div>
 </div>
 
-    <div class="control-group">
+    <legend>Partie</legend>
+
+    <div class="control-group" id="divdebug" >
       <label class="control-label" for="input01">Identifiant</label>
       <div class="controls">
         <input type="text" class="input-xlarge" id="input01" name='ident'>

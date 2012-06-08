@@ -13,7 +13,7 @@ class Application
 	end
 
 	def run
-		path = ENV["REQUEST_URI"].sub(Managem::Path,'').sub('?','')
+		path = ENV["REQUEST_URI"].sub(Managem::Path,'').sub( /\?.*/ ,'')
 		res = false
 		@methods.each do |method|
 			#puts "matching #{path} with #{method[1].sub('{id}','(\w+)')}"

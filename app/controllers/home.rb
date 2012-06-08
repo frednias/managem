@@ -1,5 +1,6 @@
 require 'yaml'
 require 'lib/team.rb'
+require 'lib/country.rb'
 
 class Home < WebApplication
 
@@ -13,9 +14,11 @@ class Home < WebApplication
 				@title =  'Liste des parties'
 				@games = Game.new.getList
 			else
-				@tpl = 'newgame'
-				@title = 'Nouvelle partie'
-				@teams = TeamQuery.new.find
+				#@tpl = 'newgame'
+				#@title = 'Nouvelle partie ?'
+				#@teams = TeamQuery.new.find
+				#@countries = CountryQuery.new.find
+				newgame
 			end
 		end
 	end
@@ -28,8 +31,9 @@ class Home < WebApplication
 
 	def newgame
 		@tpl = 'newgame'
-		@title = 'Nouvelle partie'
+		@title = 'Nouvelle partie !'
 		@teams = Team.new.find
+		@countries = Country.new.find
 		self
 	end
 end
